@@ -29,10 +29,15 @@ class KeyWorkModel{
     controller.text = e.toString();
   }
 
-  static void changed(String input, GlobalKey<FormState> productKey){
-    input = inplace(input);
-    if (productKey.currentState.validate()) {
-      productKey.currentState.save();
+  static void changed(String input, DataInputModel e, GlobalKey<FormState> productKey){
+    input = KeyWorkModel.inplace(input);
+    if((num.parse(input) != null) && (e.limitations(input))){
+      if(e.value is double) {
+        e.value = double.parse(input);
+      }
+      if(e.value is int){
+        e.value = int.parse(input);
+      }
     }
   }
 

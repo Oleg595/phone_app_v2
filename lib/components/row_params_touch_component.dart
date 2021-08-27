@@ -57,6 +57,14 @@ class _RowParamsTouchComponentState extends State<RowParamsTouchComponent>{
     if((!widget.canImage)){
       _controller.clear();
     }
+    else{
+      if(_controller.text != widget.e.toString()){
+        _controller.text = widget.e.toString();
+        if(!_productKey.currentState.validate()){
+          _controller.clear();
+        }
+      }
+    }
   }
 
   @override
@@ -93,10 +101,12 @@ class _RowParamsTouchComponentState extends State<RowParamsTouchComponent>{
               controller: _controller,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: AppDecorations.textFieldMenuDecoration,
+              onChanged: (input) => KeyWorkModel.changed(input, widget.e, _productKey),
+              onTap: () => DataParams.updateScreens(),
+              onEditingComplete: () => _productKey.currentState.validate(),
               validator: (input) => KeyWorkModel.validator(input, widget.e as DataInputModel),
               onSaved: (input) => KeyWorkModel.savedDataModel(input, DataParams.data.indexOf(widget.e), widget.e, _controller),
               onFieldSubmitted: (input) => KeyWorkModel.submitted(input, _productKey),
-              autovalidateMode: AutovalidateMode.disabled,
             ),
           ) : Text(widget.e.toString()),
         ),
